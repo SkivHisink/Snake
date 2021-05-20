@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "GameMenu.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 void GameMenu(int maxX, int maxY, int *Score, char *Name, double *Time) {
 	ClearConsole();
@@ -138,6 +139,8 @@ void GameMenu(int maxX, int maxY, int *Score, char *Name, double *Time) {
 				GotoXY(maxX / 2 - maxX / 20, maxY / 4 + 3);
 				printf("Your time:%lf", *Time);
 				getchar();
+				free(Score);
+				free(Time);
 			}
 			else if (Y_Pos == maxY / 4 + 2) /*Records*/ {
 				flag = 3;

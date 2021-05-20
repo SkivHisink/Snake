@@ -77,8 +77,8 @@ void CreateSnake(gamestate *action) {
 	MaxXY(action->maxX, action->maxY);
 	/*--------------------------------------------------------*/
 	action->head = (Snake*)malloc(sizeof(Snake));
-	action->tail = (Snake*)malloc(sizeof(Snake));
-	action->head = action->tail;
+	action->head->next = NULL;
+	action->head->prev = NULL;
 	action->tail = action->head;
 	/*--------------------------------------------------------*/
 	action->food = (Food*)malloc(sizeof(Food));
@@ -91,6 +91,20 @@ void CreateSnake(gamestate *action) {
 	action->food->condition = false;
 	action->score = 0;
 	CreatePartSnake(action);
+}
+/*--------------------------------------------------------*/
+void DeleteSnake(gamestate *action)
+{
+	free(action->maxX);
+	free(action->maxY);
+	free(action->food);
+	Snake* for_del = action->tail;
+	while(for_del!=NULL)
+	{
+		Snake* tmp = for_del->prev;
+		free(for_del);
+		for_del = tmp;
+	}
 }
 /*--------------------------------------------------------*/
 void Game(gamestate *action, int *move) {
@@ -211,6 +225,7 @@ void GameP(int SC, int FC) {
 	ClearConsole();
 	*score = action->score;
 	*t_time = (stop - start) / CLK_TCK;
+	DeleteSnake(action);
 	free(action);
 }
 /*--------------------------------------------------------*/
